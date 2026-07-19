@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <script>
+      (function() {
+        // Intercept and bypass Vite HMR WebSocket connection attempts before they can throw uncaught connection errors.
+        var OriginalWebSocket = window.WebSocket;
+        if (OriginalWebSocket) {
+          var PatchedWebSocket = function(url, protocols) {
+            if (url && (url.includes('vite') || url.includes('hmr') || url.includes('/_vite') || url.includes('dev-') || url.includes('ais-'))) {
+              console.warn('[Sandbox] Deflected Vite HMR WebSocket connection to avoid connection errors:', url);
+              
+              var dummy = new EventTarget();
+              dummy.url = url;
+              dummy.protocols = protocols;
+              dummy.readyState = 0; // CONNECTING
+              dummy.binaryType = 'blob';
+              dummy.bufferedAmount = 0;
+              dummy.extensions = '';
+              dummy.protocol = '';
+              
+              dummy.send = function(data) {
+                // No-op
+              };
+              
+              dummy.close = function() {
+                dummy.readyState = 3; // CLOSED
+                setTimeout(function() {
+                  var event = new CloseEvent('close', {
+                    code: 1000,
+                    reason: "Normal closure",
+                    wasClean: true
+                  });
+                  dummy.dispatchEvent(event);
+                  if (typeof dummy.onclose === 'function') {
+                    try { dummy.onclose(event); } catch (e) {}
+                  }
+                }, 10);
+              };
+              
+              // Define custom onopen, onmessage, onerror, onclose setters/getters so they work like real WebSocket properties
+              var eventTypes = ['open', 'message', 'error', 'close'];
+              eventTypes.forEach(function(type) {
+                var propName = 'on' + type;
+                var secretKey = '_' + propName;
+                Object.defineProperty(dummy, propName, {
+                  get: function() {
+                    return dummy[secretKey];
+                  },
+                  set: function(cb) {
+                    if (dummy[secretKey]) {
+                      dummy.removeEventListener(type, dummy[secretKey]);
+                    }
+                    dummy[secretKey] = cb;
+                    if (cb) {
+                      dummy.addEventListener(type, cb);
+                    }
+                  },
+                  configurable: true,
+                  enumerable: true
+                });
+              });
+
+              // Transition to OPEN state and fire open event so that Vite thinks it's successfully connected!
+              setTimeout(function() {
+                dummy.readyState = 1; // OPEN
+                var event = new Event('open');
+                dummy.dispatchEvent(event);
+                if (typeof dummy.onopen === 'function') {
+                  try { dummy.onopen(event); } catch (e) {}
+                }
+              }, 50);
+              
+              return dummy;
+            }
+            return new OriginalWebSocket(url, protocols);
+          };
+          
+          PatchedWebSocket.prototype = OriginalWebSocket.prototype;
+          Object.keys(OriginalWebSocket).forEach(function(key) {
+            PatchedWebSocket[key] = OriginalWebSocket[key];
+          });
+          
+          PatchedWebSocket.CONNECTING = 0;
+          PatchedWebSocket.OPEN = 1;
+          PatchedWebSocket.CLOSING = 2;
+          PatchedWebSocket.CLOSED = 3;
+          
+          try {
+            Object.defineProperty(window, 'WebSocket', {
+              value: PatchedWebSocket,
+              configurable: true,
+              writable: true,
+              enumerable: true
+            });
+          } catch (e) {
+            try {
+              window.WebSocket = PatchedWebSocket;
+            } catch (err) {}
+          }
+        }
+
+        // Silently ignore remaining unhandled HMR rejections or webSocket errors
+        window.addEventListener('unhandledrejection', function(event) {
+          var reasonStr = String(event.reason || '');
+          var messageStr = String(event.reason && event.reason.message || '');
+          if (
+            reasonStr.toLowerCase().includes('websocket') ||
+            reasonStr.toLowerCase().includes('hmr') ||
+            messageStr.toLowerCase().includes('websocket') ||
+            messageStr.toLowerCase().includes('hmr')
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        });
+
+        window.addEventListener('error', function(event) {
+          var errorMsg = String(event.message || '');
+          var errorObjStr = String(event.error || '');
+          if (
+            errorMsg.toLowerCase().includes('websocket') ||
+            errorMsg.toLowerCase().includes('hmr') ||
+            errorObjStr.toLowerCase().includes('websocket') ||
+            errorObjStr.toLowerCase().includes('hmr')
+          ) {
+            event.preventDefault();
+            event.stopPropagation();
+          }
+        }, true);
+      })();
+    </script>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>The New Tips - Premium Courses Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://checkout.razorpay.com/v1/checkout.js" defer></script>
+  </head>
+  <body class="bg-[#09090b] text-slate-100 antialiased font-sans">
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+

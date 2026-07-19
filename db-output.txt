@@ -1,0 +1,13 @@
+DB data: {
+  smtpHost: 'smtp.gmail.com',
+  isLiveMode: true,
+  razorpayWebhookSecret: 'sitaram12',
+  upiVpa: 'sitaram322530.rzp@rxairtel',
+  razorpayKeySecret: 'adminpassword123',
+  razorpayKeyId: 'rzp_live_T9JX6rNwr0VmQV',
+  adminPassword: '@#$sitaram12@#$',
+  smtpUser: 'satendrlodhi711@gmail.com',
+  smtpPass: 'xiqy cxda lcsf hxyv',
+  smtpSender: '',
+  smtpPort: '465'
+}

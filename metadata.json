@@ -1,0 +1,8 @@
+{
+  "name": "The New Tips",
+  "description": "Premium digital courses store with automated payments, dashboard, custom learning materials, and AI API Key Tracker.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

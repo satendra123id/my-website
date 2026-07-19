@@ -1,0 +1,277 @@
+{
+  "entities": {
+    "Course": {
+      "title": "Course",
+      "description": "Premium course or digital product in the catalog",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "price": {
+          "type": "number"
+        },
+        "originalPrice": {
+          "type": "number"
+        },
+        "thumbnail": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "lecturesCount": {
+          "type": "number"
+        },
+        "filesCount": {
+          "type": "number"
+        },
+        "videos": {
+          "type": "array"
+        },
+        "attachments": {
+          "type": "array"
+        },
+        "createdAt": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "description",
+        "price",
+        "originalPrice",
+        "thumbnail",
+        "category",
+        "createdAt"
+      ]
+    },
+    "Transaction": {
+      "title": "Transaction",
+      "description": "Ledger of a payment or transaction attempt",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "studentEmail": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        },
+        "courseTitle": {
+          "type": "string"
+        },
+        "amount": {
+          "type": "number"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "UPI",
+            "Razorpay"
+          ]
+        },
+        "refUtrId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "PENDING",
+            "SUCCESS",
+            "FAILED"
+          ]
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "studentEmail",
+        "studentName",
+        "courseId",
+        "courseTitle",
+        "amount",
+        "method",
+        "refUtrId",
+        "status",
+        "timestamp"
+      ]
+    },
+    "GatewaySettings": {
+      "title": "GatewaySettings",
+      "description": "Integration settings for payment gateways",
+      "type": "object",
+      "properties": {
+        "razorpayKeyId": {
+          "type": "string"
+        },
+        "razorpayKeySecret": {
+          "type": "string"
+        },
+        "upiVpa": {
+          "type": "string"
+        },
+        "isLiveMode": {
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "razorpayKeyId",
+        "razorpayKeySecret",
+        "upiVpa",
+        "isLiveMode"
+      ]
+    },
+    "SupportMessage": {
+      "title": "SupportMessage",
+      "description": "A message in a support chat.",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "senderId": {
+          "type": "string"
+        },
+        "senderName": {
+          "type": "string"
+        },
+        "message": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        },
+        "isRead": {
+          "type": "boolean"
+        },
+        "courseId": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "senderId",
+        "senderName",
+        "message",
+        "timestamp",
+        "isRead"
+      ]
+    },
+    "Review": {
+      "title": "Review",
+      "description": "Student review for a course",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "courseId": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "studentName": {
+          "type": "string"
+        },
+        "rating": {
+          "type": "number"
+        },
+        "comment": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "courseId",
+        "studentId",
+        "studentName",
+        "rating",
+        "comment",
+        "timestamp"
+      ]
+    },
+    "ApiKey": {
+      "title": "ApiKey",
+      "description": "An AI API key and its metadata",
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "purpose": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ACTIVE",
+            "REVOKED",
+            "EXPIRED"
+          ]
+        },
+        "limit": {
+          "type": "number"
+        },
+        "createdAt": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "purpose",
+        "status",
+        "limit",
+        "createdAt"
+      ]
+    }
+  },
+  "firestore": {
+    "courses/{courseId}": {
+      "schema": "Course",
+      "description": "Premium courses"
+    },
+    "courses/{courseId}/reviews/{reviewId}": {
+      "schema": "Review",
+      "description": "Reviews for a specific course"
+    },
+    "transactions/{transactionId}": {
+      "schema": "Transaction",
+      "description": "Payment transactions ledger"
+    },
+    "settings/gateway": {
+      "schema": "GatewaySettings",
+      "description": "Gateway integration details"
+    },
+    "support_messages/{messageId}": {
+      "schema": "SupportMessage",
+      "description": "Collection of all support chat messages."
+    },
+    "api_keys/{keyId}": {
+      "schema": "ApiKey",
+      "description": "API keys used for AI services"
+    }
+  }
+}

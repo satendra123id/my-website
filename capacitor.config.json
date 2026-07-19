@@ -1,0 +1,8 @@
+{
+  "appId": "com.thenewtips.app",
+  "appName": "The New Tips",
+  "webDir": "dist",
+  "server": {
+    "androidScheme": "https"
+  }
+}

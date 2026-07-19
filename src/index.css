@@ -1,0 +1,125 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Space Grotesk", sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
+  
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-950: var(--accent-950);
+}
+
+:root {
+  /* Vibrant Teal Theme */
+  --accent-50: #f0fdfa;
+  --accent-100: #ccfbf1;
+  --accent-200: #99f6e4;
+  --accent-300: #5eead4;
+  --accent-400: #2dd4bf;
+  --accent-500: #14b8a6;
+  --accent-600: #0d9488;
+  --accent-700: #0f766e;
+  --accent-800: #115e59;
+  --accent-950: #134e4a;
+}
+
+[data-theme="indigo"] {
+  --accent-50: #eef2ff;
+  --accent-100: #e0e7ff;
+  --accent-200: #c7d2fe;
+  --accent-300: #a5b4fc;
+  --accent-400: #818cf8;
+  --accent-500: #6366f1;
+  --accent-600: #4f46e5;
+  --accent-700: #4338ca;
+  --accent-800: #3730a3;
+  --accent-950: #1e1b4b;
+}
+
+[data-theme="emerald"] {
+  --accent-50: #ecfdf5;
+  --accent-100: #d1fae5;
+  --accent-200: #a7f3d0;
+  --accent-300: #6ee7b7;
+  --accent-400: #34d399;
+  --accent-500: #10b981;
+  --accent-600: #059669;
+  --accent-700: #047857;
+  --accent-800: #065f46;
+  --accent-950: #022c22;
+}
+
+[data-theme="violet"] {
+  --accent-50: #f5f3ff;
+  --accent-100: #ede9fe;
+  --accent-200: #ddd6fe;
+  --accent-300: #c4b5fd;
+  --accent-400: #a78bfa;
+  --accent-500: #8b5cf6;
+  --accent-600: #7c3aed;
+  --accent-700: #6d28d9;
+  --accent-800: #5b21b6;
+  --accent-950: #2e1065;
+}
+
+[data-theme="rose"] {
+  --accent-50: #fff1f2;
+  --accent-100: #ffe4e6;
+  --accent-200: #fecdd3;
+  --accent-300: #fda4af;
+  --accent-400: #fb7185;
+  --accent-500: #f43f5e;
+  --accent-600: #e11d48;
+  --accent-700: #be123c;
+  --accent-800: #9f1239;
+  --accent-950: #4c0519;
+}
+
+/* Smooth fade-in and custom scrollbar animations */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.prose h1 { @apply text-2xl font-bold mb-4 text-white uppercase tracking-tight; }
+.prose h2 { @apply text-xl font-bold mt-8 mb-4 text-accent-300 uppercase tracking-tight; }
+.prose h3 { @apply text-lg font-bold mt-6 mb-3 text-white uppercase; }
+.prose p { @apply text-sm leading-relaxed mb-4 text-zinc-300; }
+.prose ul { @apply list-disc list-inside mb-4 space-y-2 text-zinc-400; }
+.prose ol { @apply list-decimal list-inside mb-4 space-y-2 text-zinc-400; }
+.prose li { @apply text-sm; }
+.prose strong { @apply text-white font-bold; }
+.prose code { @apply bg-zinc-950 text-accent-400 px-1.5 py-0.5 rounded font-mono text-xs; }
+.prose pre { @apply bg-zinc-950 p-4 rounded-xl border border-zinc-800 my-4 overflow-x-auto; }
+.prose pre code { @apply bg-transparent p-0 text-zinc-300; }
+.prose blockquote { @apply border-l-4 border-accent-500 pl-4 italic text-zinc-400 my-4; }
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #09090b;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 9999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #3f3f46;
+}
